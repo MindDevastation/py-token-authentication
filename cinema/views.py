@@ -93,6 +93,7 @@ class MovieViewSet(mixins.ListModelMixin,
 
 class MovieSessionViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     queryset = (
         MovieSession.objects.all()
