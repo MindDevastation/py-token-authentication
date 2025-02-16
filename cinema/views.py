@@ -4,7 +4,7 @@ from django.db.models import F, Count
 from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from cinema.models import Genre, Actor, CinemaHall, Movie, MovieSession, Order
 
@@ -21,6 +21,7 @@ from cinema.serializers import (
     OrderSerializer,
     OrderListSerializer,
 )
+from user.permissions import IsAdminOrReadOnly
 
 
 class GenreViewSet(mixins.ListModelMixin,
@@ -93,7 +94,7 @@ class MovieViewSet(mixins.ListModelMixin,
 
 class MovieSessionViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsAdminOrReadOnly, )
 
     queryset = (
         MovieSession.objects.all()
